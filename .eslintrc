@@ -1,0 +1,16 @@
+{
+  "extends": "eslint-config-airbnb",
+  "rules": {
+    "class-methods-use-this": "off",
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": [2, { "ignore": ["electron"] }],
+    "linebreak-style": 0,
+    "no-underscore-dangle": "off",
+    "no-plusplus": "off",
+    "no-undef": "off",
+    "max-len": "off",
+    "no-restricted-syntax": "off",
+    "eslint-disable-next-line": "none"
+  }
+}

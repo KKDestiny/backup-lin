@@ -1,0 +1,120 @@
+<!--
+ * @Date: 2022-06-22 21:18:07
+ * @LastEditors: linxiaozhou.com
+ * @Description: Description
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Electron Template with jQuery</title>
+    <link rel="stylesheet" href="../public/fonts/ubuntu.css" />
+    <link rel="stylesheet" href="../public/css/bootstrap.css" />
+    <link
+      rel="stylesheet"
+      href="../public/fontawesome-free-6.0.0-beta3-web/css/all.css"
+    />
+
+    <link rel="stylesheet" href="../public/css/common.css" />
+    <link rel="stylesheet" href="../public/css/better.css" />
+  </head>
+
+  <body
+    class="scrollbar"
+    style="user-select: auto; -webkit-user-select: auto; overflow-y: hidden"
+  >
+    <div id="main-body" style="padding: 30px 20px">
+      <div class="row">
+        <div class="col-12">
+          <h2>TEMPLATE jQuery</h2>
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col-6">
+              <div style="font-size: 1.3em; margin-bottom: 10px">
+                服务器配置
+              </div>
+              <div class="form-floating">
+                <input
+                  id="http-server-modal-port"
+                  type="number"
+                  value="18000"
+                  class="form-control inverse"
+                  placeholder="端口号"
+                />
+                <label>端口号</label>
+              </div>
+              <div style="text-align: left; margin-top: 10px">
+                <a
+                  id="http-server-modal-btn"
+                  onclick="startHttpServer()"
+                  class="btn btn-sm btn-pink"
+                  style="margin-top: 10px"
+                  >启动</a
+                >
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row">
+                <div class="col-12">
+                  <div
+                    id="http-server-modal-url"
+                    style="width: 100%; margin-top: 10px"
+                  ></div>
+                </div>
+                <div class="col-6">
+                  <div
+                    id="http-server-modal-svg"
+                    style="width: 100%; margin-bottom: 20px; margin-top: 20px"
+                  ></div>
+                </div>
+                <div class="col-6">
+                  <div
+                    id="http-server-modal-svg-ws"
+                    style="width: 100%; margin-bottom: 20px; margin-top: 20px"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1"></div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div
+            id="page-footer"
+            class="bp-footer unlock"
+            style="margin-top: 20px; margin-bottom: -20px"
+          >
+            ©2022
+            <a
+              onclick="ToolsPublicInst.openExternalLink('https://www.linxiaozhou.com')"
+              >林晓州</a
+            >
+            设计和提供技术支持
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      window.$ = window.jQuery = require("jquery");
+      electron = require("electron");
+      echarts = require("echarts");
+      ipcRenderer = electron.ipcRenderer;
+    </script>
+
+    <script src="../public/js/libs/popper.min.js"></script>
+    <script src="../public/js/libs/bootstrap.min.js"></script>
+    <script src="../public/js/libs/marked.min.js"></script>
+    <script src="../public/js/libs/socket.io.min.js"></script>
+
+    <script src="../public/js/constants.js"></script>
+    <script src="../public/js/utils/common.util.js"></script>
+    <script src="../public/js/init.js"></script>
+
+    <script src="../public/js/models/base.model.js"></script>
+    <script src="../public/js/models/system.model.js"></script>
+
+    <script src="../public/js/pages/index.js"></script>
+  </body>
+</html>
