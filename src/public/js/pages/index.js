@@ -43,7 +43,7 @@ function refreshHttpServerStatus() {
     globals.$("#http-configs").hide();
   }
 
-  const { url, svg, wsSvg } = httpServerInfo || {};
+  const { url, svg, wsSvg, authcode } = httpServerInfo || {};
 
   if (!url) {
     globals.$("#http-server-modal-url").html("");

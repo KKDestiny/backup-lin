@@ -4,11 +4,15 @@
  * @Description: Description
  */
 import express from "express";
+import fs from "fs-extra";
+import path from "path";
 
 import configure from "../../config/configure";
 import { getLatestLog } from "../../config/devlogs";
 
 import auth from "../middlewares/auth.middleware";
+import uploader from "../utils/uploader.util";
+import { generateSeed } from "../../utils/server.util";
 
 const router = express.Router({ mergeParams: true });
 
@@ -62,5 +66,30 @@ router.post("/ipc-proxy", auth, async (req, res) => {
 
   res.status(200).json({ data: responseData });
 });
+
+// 上传文件
+router.post(
+  "/upload-file",
+  auth,
+  uploader.single("files"),
+  async (req, res) => {
+    const dir = `${configure.rootPath}/tmp`;
+    if (!fs.pathExistsSync(dir)) await fs.mkdirs(dir);
+
+    const fileInfo = req.file;
+    const ext = path.extname(fileInfo.originalname);
+    const filename = `${generateSeed()}${ext}`;
+    const filepath = `${dir}/${filename}`;
+    await fs.writeFile(filepath, fileInfo.buffer, "utf-8");
+
+    res.status(200).json({
+      data: {
+        filename,
+        mimetype: fileInfo.mimetype,
+        size: fileInfo.size,
+      },
+    });
+  }
+);
 
 export default router;

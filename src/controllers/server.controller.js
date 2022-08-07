@@ -73,7 +73,7 @@ export async function getHttpServerStatus() {
   }
 
   const authcode = getAuthCode();
-  const url = `http://${getIPAddress()}:${listeningPort}`;
+  const url = `http://${getIPAddress()}:${listeningPort}?authcode=${authcode}`;
   const ws = `ws://${getIPAddress()}:${listeningPort}?authcode=${authcode}`;
   const svgRes = await generateQrSVG(url);
   const svgWSRes = await generateQrSVG(ws);
