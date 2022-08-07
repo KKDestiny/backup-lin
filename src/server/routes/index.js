@@ -77,10 +77,11 @@ router.post(
     if (!fs.pathExistsSync(dir)) await fs.mkdirs(dir);
 
     const fileInfo = req.file;
-    const ext = path.extname(fileInfo.originalname);
-    const filename = `${generateSeed()}${ext}`;
+    // const ext = path.extname(fileInfo.originalname);
+    const filename = `${fileInfo.originalname}`;
     const filepath = `${dir}/${filename}`;
     await fs.writeFile(filepath, fileInfo.buffer, "utf-8");
+    console.log(filepath);
 
     res.status(200).json({
       data: {
