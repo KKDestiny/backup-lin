@@ -96,13 +96,11 @@ router.post(
 // 备份
 router.post("/backup", auth, uploader.single("files"), async (req, res) => {
   const dirname = req.body.dirname;
-  console.log(dirname);
+  const filename = req.body.filename;
   const dir = `${configure.rootPath}/tmp/${dirname}`;
   if (!fs.pathExistsSync(dir)) await fs.mkdirs(dir);
 
   const fileInfo = req.file;
-  // const ext = path.extname(fileInfo.originalname);
-  const filename = `${fileInfo.originalname}`;
   const filepath = `${dir}/${filename}`;
   await fs.writeFile(filepath, fileInfo.buffer, "utf-8");
   console.log(filepath);
