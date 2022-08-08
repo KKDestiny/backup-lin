@@ -43,7 +43,7 @@ function refreshHttpServerStatus() {
     globals.$("#http-configs").hide();
   }
 
-  const { url, svg, wsSvg, authcode } = httpServerInfo || {};
+  const { url, svg, wsSvg } = httpServerInfo || {};
 
   if (!url) {
     globals.$("#http-server-modal-url").html("");
@@ -78,6 +78,7 @@ function refreshHttpServerStatus() {
       .html(
         `<div style="width: 100%; margin-top: 4px; margin-bottom: 10px;">WebSocket</div>${wsSvg}`
       );
+    globals.$("#http-server-modal-svg-ws").hide();
   }
 }
 
