@@ -23,7 +23,7 @@ const MAGIC_CODE = ENV_PRODUCTION ? "384628" : "123456";
 /**
  * 软件名称
  */
-const softwareName = "ElectronTemplateJQuery";
+const softwareName = "BackupLIN";
 
 /**
  * 打开开发者工具
@@ -41,8 +41,8 @@ const iconPath = "public/images/round_red_mac.png";
 
 export default {
   beginYear: "2022",
-  fullName: "ElectronTemplateJQuery",
-  description: "ElectronTemplateJQuery",
+  fullName: "BackupLIN",
+  description: "BackupLIN",
   rootPath,
   softwareName,
 

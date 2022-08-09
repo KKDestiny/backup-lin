@@ -48,26 +48,25 @@ function refreshHttpServerStatus() {
   if (!url) {
     globals.$("#http-server-modal-url").html("");
   } else {
+    const link = `
+      <div style="margin-top: 6px;">
+        <a class="hover-text inverse" onclick="globals.openExternalLink('${url}')">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> ${url}
+        </a>
+      </div>
+    `;
     globals.$("#http-server-modal-url").html(
       `
-          <div class="small-text"><i class="fa-solid fa-circle-question"></i> 击下面链接，或用客户端app扫描二维码后保存打开的网页</div>
-          <div style="margin-top: 6px;">
-            <a class="hover-text inverse" onclick="globals.openExternalLink('${url}')">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i> ${url}
-            </a>
-          </div>
-        `
+        <div style="width: 100%; margin-top: 4px;">二维码</div>
+        <div class="small-text" style="margin-top: 4px;"><i class="fa-solid fa-circle-question"></i> 使用孤岛笔记app扫描下面二维码</div>
+      `
     );
   }
 
   if (!svg) {
     globals.$("#http-server-modal-svg").html("");
   } else {
-    globals
-      .$("#http-server-modal-svg")
-      .html(
-        `<div style="width: 100%; margin-top: 4px; margin-bottom: 10px;">Http</div>${svg}`
-      );
+    globals.$("#http-server-modal-svg").html(`${svg}`);
   }
 
   if (!wsSvg) {

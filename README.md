@@ -1,6 +1,6 @@
 # Biref Introduction
 
-This is a desktop app built by electron + jQuery + Socket.io. This is a template project for fast boot.
+孤岛笔记的数据备份客户端，支持导出手机指定目录的全部文件，支持导出孤岛笔记的 app 数据到客户端
 
 # Installation
 

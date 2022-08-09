@@ -34,6 +34,13 @@ const logDevLogs = [
     auth: "林晓州",
     level: logDevLevel.milestone.id,
   },
+  {
+    ver: "1.0.0",
+    date: "2022/08/09",
+    dev: "提供文件备份服务器功能",
+    auth: "林晓州",
+    level: logDevLevel.milestone.id,
+  },
 ];
 
 export const getLatestLog = () => {

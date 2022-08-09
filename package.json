@@ -1,8 +1,8 @@
 {
-  "name": "electron-template-jquery",
-  "productName": "electron-template-jquery",
-  "version": "4.1.0",
-  "description": "electron-template-jquery",
+  "name": "backup-lin",
+  "productName": "backup-lin",
+  "version": "1.0.0",
+  "description": "backup-lin",
   "main": "dist/index.js",
   "scripts": {
     "start": "npx babel src --out-dir dist --copy-files && electron-forge start",
