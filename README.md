@@ -8,6 +8,12 @@
 yarn
 ```
 
+# F&A
+
+## socket.emit() 时出现 transport close 错误
+
+socket.io 启动 server 时，如果没有设置允许上传的文件最大 size（配置项为 maxHttpBufferSize）默认最大为 1MB，如果数据超出此限制，客户端会报错: `transport close`，并导致同时本次通信失败，继而自动重连
+
 # 制作苹果图标
 
 将 png 图片放在 `./res/source/` 下，并命名为 `logo.png` 后，在根目录下执行下面命令：
