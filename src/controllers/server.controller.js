@@ -54,7 +54,7 @@ export async function stopHttpServer() {
       if (socketIOServer) {
         socketIOServer.close();
       }
-
+      server.closeAllConnections();
       server.close(err => {
         if (err) {
           return resolve({ errors: err });
