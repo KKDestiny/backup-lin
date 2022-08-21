@@ -162,7 +162,7 @@ function updateClients(clients) {
           <p class="mb-1" style="margin-top: 6px;">
             <span onclick="syncPictures('${client.id}')" class="btn btn-sm btn-dark">同步图片</span>
             <span onclick="syncLIN('${client.id}')" class="btn btn-sm btn-dark">同步APP数据</span>
-            <span onclick="sendFiles('${client.id}')" class="btn btn-sm btn-dark float-end">发送文件</span>
+            <span onclick="sendFiles('${client.id}')" class="btn btn-sm btn-pink float-end">发送文件</span>
           </p>
         </a>
       `;
