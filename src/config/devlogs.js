@@ -35,9 +35,16 @@ const logDevLogs = [
     level: logDevLevel.milestone.id,
   },
   {
-    ver: "1.0.0",
+    ver: "0.1.0",
     date: "2022/08/09",
     dev: "提供文件备份服务器功能",
+    auth: "林晓州",
+    level: logDevLevel.important.id,
+  },
+  {
+    ver: "1.0.0",
+    date: "2022/08/21",
+    dev: "完善手机数据管理功能，增加手机设备连接状态实时展示",
     auth: "林晓州",
     level: logDevLevel.milestone.id,
   },

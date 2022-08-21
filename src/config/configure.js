@@ -13,7 +13,7 @@ const ENV_PRODUCTION = true;
 /**
  * 上次发布版本号
  */
-const LAST_VERSION = "0.0.0";
+const LAST_VERSION = "0.1.0";
 
 /**
  * Magic Code
@@ -33,9 +33,7 @@ const ENV_DEV_TOOL = ENV_PRODUCTION ? false : true;
 /**
  * 软件数据目录
  */
-const rootPath = ENV_PRODUCTION
-  ? `${homedir()}/Documents/${softwareName}`
-  : `${homedir()}/Documents/${softwareName}_Debug`;
+const rootPath = `${homedir()}/Documents/${softwareName}`;
 
 const iconPath = "public/images/round_red_mac.png";
 
