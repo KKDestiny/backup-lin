@@ -116,4 +116,11 @@ router.post("/backup", auth, uploader.single("files"), async (req, res) => {
   });
 });
 
+// 下载大文件
+router.get("/download", auth, async (req, res) => {
+  const filepath = decodeURI(req.query.filepath);
+  console.log(`[download]`, filepath);
+  res.download(filepath);
+});
+
 export default router;

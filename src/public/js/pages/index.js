@@ -209,6 +209,24 @@ async function sendFiles(clientId) {
   const fs = require("fs-extra");
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
+    const stat = await fs.stat(element.filepath);
+    if (stat.size > 1024 * 1024 * 10) {
+      // 大于10MB的文件需由手机端自行下载
+      const data = {
+        cmd: "send-file-cmd",
+        clientId,
+        payload: {
+          filename: element.filename,
+          filepath: globals.formatPath(element.filepath),
+          size: stat.size,
+        },
+      };
+      console.log(`[syncLIN.just-send-cmd]`, clientId, data);
+      sendMsg2Client(clientId, data);
+      return;
+    }
+
+    // 小文件直接通过websocket的Buffer传输
     const file = await fs.readFile(element.filepath);
     const data = {
       cmd: "send-file",
