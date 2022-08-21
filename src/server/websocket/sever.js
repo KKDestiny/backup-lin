@@ -36,6 +36,7 @@ function wsServer(server) {
     await updateClients(io);
 
     socket.on("disconnect", async () => {
+      console.log("[Client Disconnected]", socket.id);
       await updateClients(io);
     });
 
