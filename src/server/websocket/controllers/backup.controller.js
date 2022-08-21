@@ -47,7 +47,7 @@ async function backupPictures(payload, callback) {
     const name = element.fileEntry.name;
     const dirname = element.dirname;
     const fullPath = `${configure.rootPath}/${dirname}/${name}`;
-    console.log(fs.pathExistsSync(fullPath), fullPath);
+    // console.log(fs.pathExistsSync(fullPath), fullPath);
     if (!fs.pathExistsSync(fullPath)) {
       tobeSync.push(element);
     }
