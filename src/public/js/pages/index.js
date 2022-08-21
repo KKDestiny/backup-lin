@@ -157,16 +157,44 @@ function updateClients(clients) {
         <a class="list-group-item inverse" aria-current="true">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">${address}</h5>
-            <small>已连接</small>
+            <small>${client.id}</small>
           </div>
-          <p class="mb-1"></p>
-          <small>${client.id}</small>
+          <p class="mb-1" style="margin-top: 6px;">
+            <span onclick="syncPictures('${client.id}')" class="btn btn-sm btn-dark">同步图片</span>
+            <span onclick="syncLIN('${client.id}')" class="btn btn-sm btn-dark">同步APP数据</span>
+          </p>
         </a>
       `;
       return temp;
     }, "");
   }
   globals.$(`#socket-client-list`).html(list);
+}
+
+function syncPictures(clientId) {
+  const data = {
+    cmd: "sync-pictures",
+    clientId,
+    payload: {},
+  };
+  console.log(`[syncPictures]`, clientId, data);
+  sendMsg2Client(clientId, data);
+}
+
+function syncLIN(clientId) {
+  const data = {
+    cmd: "sync-lin",
+    clientId,
+    payload: {},
+  };
+  console.log(`[syncLIN]`, clientId, data);
+  sendMsg2Client(clientId, data);
+}
+
+function sendMsg2Client(clientId, data) {
+  socket.emit(`proxy/msg-center`, data, result => {
+    console.log(`[sendMsg2Client]`, clientId, result);
+  });
 }
 
 async function stopHttpServer() {

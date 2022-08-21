@@ -39,6 +39,16 @@ function wsServer(server) {
       await updateClients(io);
     });
 
+    socket.on(`proxy/msg-center`, async data => {
+      const { cmd, clientId, payload } = data;
+      console.log(
+        `[proxy/msg-center]`,
+        `Msg from ${socket.id} to ${clientId}`,
+        cmd
+      );
+      io.emit(`proxy/client/${clientId}`, { cmd, payload });
+    });
+
     // Controllers
     socket.on("echo", echoController.echo);
 
