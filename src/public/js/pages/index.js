@@ -210,8 +210,8 @@ async function sendFiles(clientId) {
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
     const stat = await fs.stat(element.filepath);
-    if (stat.size > 1024 * 1024 * 10) {
-      // 大于10MB的文件需由手机端自行下载
+    if (stat.size > 1024 * 1024 * 5) {
+      // 大于5MB的文件需由手机端自行下载
       const data = {
         cmd: "send-file-cmd",
         clientId,
