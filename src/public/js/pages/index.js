@@ -5,6 +5,7 @@
  * @LastEditors: linxiaozhou.com
  * @Description: Description
  */
+const clientSockectIO = require("socket.io-client").io;
 const globals = new GlobalToolsClass();
 const systemInst = new SystemModel({ globals });
 globals.setGlobal("systemInst", systemInst);
@@ -13,6 +14,10 @@ globals.setGlobal("marked", marked);
 globals.setGlobal("bootstrap", bootstrap);
 
 let httpServerInfo = {};
+let socket = null;
+let rootPath = "";
+let pictureRoot = "";
+let appRoot = "";
 
 /**
  * 显示页面
@@ -100,7 +105,68 @@ async function startHttpServer() {
     globals.simpleSuccess(`启动成功！<br>服务器地址: ${httpServerInfo.url}`);
     refreshHttpServerStatus();
   }
+
+  await connect2SocketServer();
   return res.data;
+}
+
+async function connect2SocketServer() {
+  const { ws, authcode } = httpServerInfo;
+  socket = clientSockectIO(ws, {
+    auth: {
+      token: authcode,
+    },
+  });
+
+  socket.on("connect", () => {
+    console.log("[ws connected]");
+    globals.$(`#manager-status-icon`).css("color", "rgb(1, 202, 122)");
+  });
+  socket.on("connect_error", reason => {
+    console.log("[ws connect_error]", reason);
+    globals.$(`#manager-status-icon`).css("color", "#EF0000");
+    updateClients([]);
+  });
+  socket.on("disconnect", reason => {
+    console.log("[ws disconnect]", reason);
+    globals.$(`#manager-status-icon`).css("color", "#888");
+    updateClients([]);
+  });
+
+  // 刷新客户端列表
+  socket.on("refresh-clientlist", data => {
+    console.log("[refresh-clientlist", data);
+
+    const clients = data.reduce((temp, client) => {
+      if (client.id === socket.id) return temp;
+      temp.push(client);
+      return temp;
+    }, []);
+    updateClients(clients);
+  });
+}
+
+function updateClients(clients) {
+  let list = "";
+  if (clients.length === 0) {
+    list = `<div class="small-text">没有已连接的客户端</div>`;
+  } else {
+    list = clients.reduce((temp, client) => {
+      const address = client.address.replace("::ffff:", "");
+      temp += `
+        <a class="list-group-item inverse" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">${address}</h5>
+            <small>已连接</small>
+          </div>
+          <p class="mb-1"></p>
+          <small>${client.id}</small>
+        </a>
+      `;
+      return temp;
+    }, "");
+  }
+  globals.$(`#socket-client-list`).html(list);
 }
 
 async function stopHttpServer() {
@@ -116,10 +182,23 @@ async function stopHttpServer() {
   refreshHttpServerStatus();
 }
 
+function openBackupDir() {
+  globals.openFilesystemPath(globals.formatPath(rootPath));
+}
+function openBackupPicDir() {
+  globals.openFilesystemPath(globals.formatPath(pictureRoot));
+}
+function openBackupLINDir() {
+  globals.openFilesystemPath(globals.formatPath(appRoot));
+}
+
 // 初始化
 globals.$(async function () {
   // 初始化页面
-  await globals.initPage(true);
+  const data = await globals.initPage(true);
+  rootPath = data.rootPath;
+  pictureRoot = `${rootPath}/pictures`;
+  appRoot = `${rootPath}/lin-backup`;
 
   // 窗口尺寸
   monitWinowSizeChange();

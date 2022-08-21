@@ -21,7 +21,7 @@
 
   <body
     class="scrollbar"
-    style="user-select: auto; -webkit-user-select: auto; overflow-y: hidden"
+    style="user-select: auto; -webkit-user-select: auto; overflow-y: auto"
   >
     <div id="main-body" style="padding: 30px 20px">
       <div class="row">
@@ -29,9 +29,12 @@
           <div class="row">
             <div class="col-1"></div>
             <div class="col-6">
-              <h2>备份我的手机数据</h2>
+              <h2>备份手机数据</h2>
               <div style="font-size: 1.3em; margin-bottom: 10px">
                 服务器配置
+                <span id="manager-status-icon">
+                  <i class="fa-solid fa-server"></i>
+                </span>
               </div>
               <div class="form-floating">
                 <input
@@ -43,7 +46,7 @@
                 />
                 <label>端口号</label>
               </div>
-              <div style="text-align: left; margin-top: 10px">
+              <div style="text-align: left; margin-top: 10px" class="btn-group">
                 <a
                   id="http-server-modal-btn"
                   onclick="startHttpServer()"
@@ -51,6 +54,30 @@
                   style="margin-top: 10px"
                   >启动</a
                 >
+
+                <a
+                  id="http-server-modal-btn"
+                  onclick="openBackupPicDir()"
+                  class="btn btn-sm btn-dark"
+                  style="margin-top: 10px"
+                  >图片备份目录</a
+                >
+                <a
+                  id="http-server-modal-btn"
+                  onclick="openBackupLINDir()"
+                  class="btn btn-sm btn-dark"
+                  style="margin-top: 10px"
+                  >APP备份目录</a
+                >
+              </div>
+
+              <div style="margin-top: 60px; margin-bottom: 80px">
+                <h2>客户端</h2>
+                <div
+                  id="socket-client-list"
+                  class="list-group"
+                  style="margin-top: 20px"
+                ></div>
               </div>
             </div>
             <div class="col-4">

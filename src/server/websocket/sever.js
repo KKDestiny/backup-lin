@@ -8,6 +8,15 @@ import authMiddleware from "./middlewares/auth.middleware";
 import echoController from "./controllers/echo.controller";
 import backupController from "./controllers/backup.controller";
 
+async function updateClients(io) {
+  const sockets = await io.fetchSockets();
+  const list = sockets.reduce((temp, data) => {
+    temp.push({ id: data.id, address: data.handshake.address });
+    return temp;
+  }, []);
+  io.emit("refresh-clientlist", list);
+}
+
 function wsServer(server) {
   const io = new Server(server, {
     /* options */
@@ -16,20 +25,26 @@ function wsServer(server) {
     maxHttpBufferSize: 1e8, // 100MB
   });
 
-  console.log("authcode", getAuthCode());
+  console.log("[authcode]", getAuthCode());
 
   // middlewares
   io.use(authMiddleware);
 
-  io.on("connection", socket => {
-    socket.on("connection", data => {
-      console.log("connection", data);
+  // New Client Connected
+  io.on("connection", async socket => {
+    console.log("[New Client Connected]", socket.id, socket.handshake.address);
+    await updateClients(io);
+
+    socket.on("disconnect", async () => {
+      await updateClients(io);
     });
 
     // Controllers
     socket.on("echo", echoController.echo);
 
     socket.on("POST backup/list", backupController.backupList);
+    socket.on("POST backup/pictures", backupController.backupPictures);
+    socket.on("POST backup/lin", backupController.backupLIN);
   });
 
   return io;

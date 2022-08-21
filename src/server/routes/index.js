@@ -97,7 +97,9 @@ router.post(
 router.post("/backup", auth, uploader.single("files"), async (req, res) => {
   const dirname = req.body.dirname;
   const filename = req.body.filename;
-  const dir = `${configure.rootPath}/tmp/${dirname}`;
+  const backuptype = req.body.backuptype;
+  let rootDir = backuptype ? `` : "tmp/";
+  const dir = `${configure.rootPath}/${rootDir}${dirname}`;
   if (!fs.pathExistsSync(dir)) await fs.mkdirs(dir);
 
   const fileInfo = req.file;

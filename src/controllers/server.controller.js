@@ -52,6 +52,7 @@ export async function stopHttpServer() {
       }
 
       if (socketIOServer) {
+        socketIOServer.disconnectSockets();
         socketIOServer.close();
       }
       server.closeAllConnections();
@@ -59,6 +60,7 @@ export async function stopHttpServer() {
         if (err) {
           return resolve({ errors: err });
         }
+        server.closeAllConnections();
         resolve({ data: { stopped: true } });
       });
     } catch (err) {
@@ -82,6 +84,7 @@ export async function getHttpServerStatus() {
     svg: svgRes.data,
     wsSvg: svgWSRes.data,
     authcode,
+    ws: `ws://${getIPAddress()}:${listeningPort}`,
     status: "running",
   };
 }
