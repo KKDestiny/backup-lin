@@ -20,9 +20,9 @@ async function updateClients(io) {
 function wsServer(server) {
   const io = new Server(server, {
     /* options */
-    // 允许上传的文件最大size
+    // 允许通信的最大数据
     // https://socket.io/how-to/upload-a-file#maxhttpbuffersize-limit
-    maxHttpBufferSize: 1e8, // 100MB
+    maxHttpBufferSize: 100 * 1024 * 1024 * 1024, // 100GB
   });
 
   console.log("[authcode]", getAuthCode());
