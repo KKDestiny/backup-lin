@@ -153,6 +153,7 @@ function updateClients(clients) {
   } else {
     list = clients.reduce((temp, client) => {
       const address = client.address.replace("::ffff:", "");
+      const defaultPath = `Download/LIN/download`;
       temp += `
         <a class="list-group-item inverse" aria-current="true">
           <div class="d-flex w-100 justify-content-between">
@@ -160,9 +161,13 @@ function updateClients(clients) {
             <small>${client.id}</small>
           </div>
           <p class="mb-1" style="margin-top: 6px;">
-            <span onclick="syncPictures('${client.id}')" class="btn btn-sm btn-dark">同步图片</span>
-            <span onclick="syncLIN('${client.id}')" class="btn btn-sm btn-dark">同步APP数据</span>
-            <span onclick="sendFiles('${client.id}')" class="btn btn-sm btn-pink float-end">发送文件</span>
+            <span onclick="sendFiles('${client.id}')" class="btn btn-sm btn-pink ">发送文件</span>
+            <input id="${client.id}-destpath" value="${defaultPath}" class="form-control inverse form-control-sm" style="display: inline-block; width: 300px;" />
+
+            <span class="float-end btn-group">
+              <span onclick="syncPictures('${client.id}')" class="btn btn-sm btn-dark">同步图片</span>
+              <span onclick="syncLIN('${client.id}')" class="btn btn-sm btn-dark">同步APP数据</span>
+            </span>
           </p>
         </a>
       `;
@@ -210,12 +215,14 @@ async function sendFiles(clientId) {
   for (let index = 0; index < list.length; index++) {
     const element = list[index];
     const stat = await fs.stat(element.filepath);
+    const destDirname = globals.$(`#${clientId}-destpath`).val();
     if (stat.size > 1024 * 1024 * 5) {
       // 大于5MB的文件需由手机端自行下载
       const data = {
         cmd: "send-file-cmd",
         clientId,
         payload: {
+          destDirname,
           filename: element.filename,
           filepath: globals.formatPath(element.filepath),
           size: stat.size,
@@ -223,7 +230,7 @@ async function sendFiles(clientId) {
       };
       console.log(`[syncLIN.just-send-cmd]`, clientId, data);
       sendMsg2Client(clientId, data);
-      return;
+      continue;
     }
 
     // 小文件直接通过websocket的Buffer传输
@@ -231,7 +238,7 @@ async function sendFiles(clientId) {
     const data = {
       cmd: "send-file",
       clientId,
-      payload: { filename: element.filename, file },
+      payload: { destDirname, filename: element.filename, file },
     };
     console.log(`[syncLIN]`, clientId, data);
     sendMsg2Client(clientId, data);
