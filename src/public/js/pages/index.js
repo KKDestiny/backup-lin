@@ -162,6 +162,7 @@ function updateClients(clients) {
           <p class="mb-1" style="margin-top: 6px;">
             <span onclick="syncPictures('${client.id}')" class="btn btn-sm btn-dark">同步图片</span>
             <span onclick="syncLIN('${client.id}')" class="btn btn-sm btn-dark">同步APP数据</span>
+            <span onclick="sendFiles('${client.id}')" class="btn btn-sm btn-dark float-end">发送文件</span>
           </p>
         </a>
       `;
@@ -195,6 +196,28 @@ function sendMsg2Client(clientId, data) {
   socket.emit(`proxy/msg-center`, data, result => {
     console.log(`[sendMsg2Client]`, clientId, result);
   });
+}
+
+async function sendFiles(clientId) {
+  const res = await systemInst.chooseFiles();
+  console.log(res);
+  const list = res?.data?.filePaths;
+  if (!Array.isArray(list) || list.length === 0) {
+    return;
+  }
+
+  const fs = require("fs-extra");
+  for (let index = 0; index < list.length; index++) {
+    const element = list[index];
+    const file = await fs.readFile(element.filepath);
+    const data = {
+      cmd: "send-file",
+      clientId,
+      payload: { filename: element.filename, file },
+    };
+    console.log(`[syncLIN]`, clientId, data);
+    sendMsg2Client(clientId, data);
+  }
 }
 
 async function stopHttpServer() {
