@@ -12,6 +12,7 @@ import serverRouter from "./routes/server.route";
 
 const isMac = process.platform === "darwin";
 let mainWindow = null;
+const devTools = true; // Configure.ENV_DEV_TOOL
 
 const template = [
   // { role: 'appMenu' }
@@ -68,9 +69,7 @@ const template = [
       { role: "zoomOut" },
       { type: "separator" },
       { role: "togglefullscreen" },
-      ...(Configure.ENV_DEV_TOOL
-        ? [{ type: "separator" }, { role: "toggleDevTools" }]
-        : []),
+      ...(devTools ? [{ type: "separator" }, { role: "toggleDevTools" }] : []),
     ],
   },
 
@@ -86,7 +85,7 @@ const template = [
       },
       { type: "separator" },
       {
-        label: "关于工具箱",
+        label: "关于",
         click: async () => {
           const latestlog = getLatestLog();
           const aboutMe = `${Configure.description}\n\n当前版本：${latestlog.ver}\n更新日期：${latestlog.date}\n更新内容：${latestlog.dev}`;
@@ -156,17 +155,6 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
-});
-
-const io = new Server(3000, {
-  /* options */
-});
-io.on("connection", socket => {
-  console.log("socket.io connected");
-  socket.on("hello", (arg, callback) => {
-    console.log(arg); // "world"
-    callback("got it");
-  });
 });
 
 // In this file you can include the rest of your app's specific main process

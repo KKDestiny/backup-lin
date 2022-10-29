@@ -20,7 +20,7 @@ const icon =
 const makerWix = {
   name: "@electron-forge/maker-wix",
   config: {
-    programFilesFolderName: "electron-jquery-app",
+    programFilesFolderName: "backup-lin",
     language: 1033,
     appIconPath: "res/icon.ico",
     cultures: "cn",
@@ -34,7 +34,7 @@ const makerWix = {
 const makerSquirrel = {
   name: "@electron-forge/maker-squirrel",
   config: {
-    name: "electron-jquery-app",
+    name: "backup-lin",
     loadingGif: "res/installation.gif",
     setupIcon: "res/icon.ico",
   },
